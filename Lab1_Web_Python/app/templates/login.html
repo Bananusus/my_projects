@@ -1,0 +1,47 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('login_title') or 'Login' }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-container { max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="password"], input[type="checkbox"] { margin-top: 5px; box-sizing: border-box; } /* Добавлен стиль для checkbox */
+        input[type="text"], input[type="password"] { width: 100%; padding: 8px; }
+        input[type="checkbox"] { width: auto; } /* Checkbox не на всю ширину */
+        input[type="submit"] { margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        input[type="submit"]:hover { background-color: #45a049; }
+        .error { color: red; margin-top: 10px; }
+        .message { color: green; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>{{ _('login_header') or 'Login' }}</h2>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
+        <form method="post">
+            <label for="username">{{ _('login_username') or 'Username' }}:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">{{ _('login_password') or 'Password' }}:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="remember">
+                <input type="checkbox" id="remember" name="remember"> {{ _('login_remember_me') or 'Remember me' }}
+            </label>
+
+            <input type="submit" value="{{ _('login_button') or 'Login' }}">
+        </form>
+        <br>
+        <a href="/">{{ _('home_link') or 'Home' }}</a>
+
+    </div>
+</body>
+</html>

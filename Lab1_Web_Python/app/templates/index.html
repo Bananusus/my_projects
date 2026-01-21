@@ -1,0 +1,31 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html lang="{{ language }}">
+    <head><title>{{ _('welcome_title') }}</title></head>
+    <body>
+        <h1 style="color: blue;">{{ _('home_title') }}</h1>
+        <p>{{ _('welcome_message') }}</p>
+
+        <ul>
+            <li><a href="/cars">{{ _('nav_cars_list') }}</a></li>
+            <li><a href="/user/Мастер_Иван">{{ _('nav_user_profile') }}</a></li>
+            <!-- Ссылки на демо маршруты -->
+            <li><a href="/cookies">{{ _('nav_cookies') }}</a></li>
+            <li><a href="/session">{{ _('nav_session') }}</a></li>
+        </ul>
+        <p>
+            {% if current_user.is_authenticated %}
+                <a href="/logout">{{ _('logout_link') }}</a> ({{ current_user.username }})
+            {% else %}
+                <a href="/login">{{ _('login_button') or 'Login' }}</a>
+            {% endif %}
+            |
+            <a href="/?lang=ru">RU</a> |
+            <a href="/?lang=en">EN</a>
+        </p>
+        <div style="position: absolute; bottom: 10px; left: 10px; font-weight: bold;">
+                <p>{{ _('total_visits_this_session') }} {{ visit_count }}</p>
+            </div>
+
+    </body>
+</html>

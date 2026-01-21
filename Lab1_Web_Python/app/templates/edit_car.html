@@ -1,0 +1,96 @@
+<!-- templates/edit_car.html -->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать  автомобиль - Автосервис</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 500px; margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;
+        }
+        input[type="submit"] {
+            margin-top: 20px; padding: 10px 15px; background-color: #4CAF50;
+            color: white; border: none; cursor: pointer;
+        }
+        input[type="submit"]:hover { background-color: #45a049; }
+        .error { color: red; margin-top: 10px; }
+        .success { color: green; margin-top: 10px; }
+        /* Добавим стиль для кнопки отмены */
+        .cancel-button {
+             background-color: #f44336;
+             text-decoration: none; /* Для ссылки */
+             display: inline-block; /* Для ссылки */
+             text-align: center; /* Для ссылки */
+             line-height: 1.5; /* Для ссылки */
+             padding: 10px 5px; /* Для ссылки */
+        }
+        .cancel-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Редактировать данные автомобиля</h1>
+
+    <!-- Форма для ввода данных -->
+    <!-- method="post" указывает, что данные отправляются методом POST -->
+    <form action="/edit_car" method="post">
+        <!-- Скрытое поле для передачи ID автомобиля -->
+        <input type="hidden" name="car_id" value="{{ car.id }}">
+        <label for="make_model_year">Марка, модель, год выпуска:</label>
+        <input type="text" id="make_model_year" name="make_model_year" value="{{ car.make_model_year }}" required>
+
+        <label for="vin">VIN-номер:</label>
+        <input type="text" id="vin" name="vin" value="{{ car.vin }}" required>
+
+        <label for="plate_number">Гос. номер:</label>
+        <input type="text" id="plate_number" name="plate_number" value="{{ car.plate_number }}" required>
+
+        <label for="owner_info">Имя владельца и контакт (через запятую):</label>
+        <input type="text" id="owner_info" name="owner_info" value="{{ car.owner_info }}" placeholder="Иванов И.И., +7(999)123-45-67" required>
+
+        <label for="defect">Описание неисправности:</label>
+        <textarea id="defect" name="defect" rows="3">{{ car.defect }}</textarea>
+
+        <label for="master_id">ID Мастера:</label>
+        <input type="number" id="master_id" name="master_id" value="{{ car.master_id if car.master_id else '' }}" min="1">
+
+        <label for="status">Статус:</label>
+        <select id="status" name="status" required>
+            <option value="">Выберите статус</option>
+            <option value="pending" {% if car.status == pending %}selected{% endif %}>В очереди</option>
+            <option value="in_progress" {% if car.status == 'in_progress' %}selected{% endif %}>В ремонте</option>
+            <option value="ready" {% if car.status == 'ready' %}selected{% endif %}>Готов</option>
+        </select>
+
+        <input type="submit" value="Сохранить изменения">
+        <a href="/cars" class="cancel-button">Отмена</a>
+    </form>
+
+    <!-- Отображение ошибок валидации, если они есть -->
+    {% if errors %}
+        <div class="error">
+            <h3>Ошибки при заполнении формы:</h3>
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Отображение сообщения об успехе, если автомобиль добавлен -->
+    {% if success_message %}
+        <div class="success">
+            <h3>{{ success_message }}</h3>
+
+        </div>
+    {% endif %}
+
+    <br>
+    <a href="/cars">Список автомобилей</a> | <a href="/">На главную</a>
+</body>
+</html>

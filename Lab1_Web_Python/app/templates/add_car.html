@@ -1,0 +1,82 @@
+<!-- templates/add_car.html -->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить автомобиль - Автосервис</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 500px; margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;
+        }
+        input[type="submit"] {
+            margin-top: 20px; padding: 10px 15px; background-color: #4CAF50;
+            color: white; border: none; cursor: pointer;
+        }
+        input[type="submit"]:hover { background-color: #45a049; }
+        .error { color: red; margin-top: 10px; }
+        .success { color: green; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Добавить новый автомобиль в автосервис</h1>
+
+    <!-- Форма для ввода данных -->
+    <!-- action="/add_car" указывает, куда отправлять данные -->
+    <!-- method="post" указывает, что данные отправляются методом POST -->
+    <form action="/add_car" method="post">
+        <label for="make_model_year">Марка, модель, год выпуска:</label>
+        <input type="text" id="make_model_year" name="make_model_year" required>
+
+        <label for="vin">VIN-номер:</label>
+        <input type="text" id="vin" name="vin" required>
+
+        <label for="plate_number">Гос. номер:</label>
+        <input type="text" id="plate_number" name="plate_number" required>
+
+        <label for="owner_info">Имя владельца и контакт (через запятую):</label>
+        <input type="text" id="owner_info" name="owner_info" placeholder="Иванов И.И., +7(999)123-45-67" required>
+
+        <label for="defect">Описание неисправности:</label>
+        <textarea id="defect" name="defect" rows="3"></textarea>
+
+        <label for="master_id">ID Мастера:</label>
+        <input type="number" id="master_id" name="master_id" min="1">
+
+        <label for="status">Статус:</label>
+        <select id="status" name="status" required>
+            <option value="">Выберите статус</option>
+            <option value="pending">В очереди </option>
+            <option value="in_progress">В ремонте </option>
+            <option value="ready">Готов </option>
+        </select>
+
+        <input type="submit" value="Добавить автомобиль">
+    </form>
+
+    <!-- Отображение ошибок валидации, если они есть -->
+    {% if errors %}
+        <div class="error">
+            <h3>Ошибки при заполнении формы:</h3>
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Отображение сообщения об успехе, если автомобиль добавлен -->
+    {% if success_message %}
+        <div class="success">
+            <h3>{{ success_message }}</h3>
+            <p>Добавленный автомобиль: {{ new_car.make_model_year }} ({{ new_car.plate_number }})</p>
+        </div>
+    {% endif %}
+
+    <br>
+    <a href="/cars">Список автомобилей</a> | <a href="/">На главную</a>
+</body>
+</html>
